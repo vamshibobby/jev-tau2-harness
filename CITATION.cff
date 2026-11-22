@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this code or the saved runs, please cite the paper (preferred-citation) and this software."
+type: software
+title: "jev-tau2-harness: replication code for System-1 Orchestration for Enterprise Conversational Agents"
+version: 1.0.0
+date-released: 2026-11-22
+license: MIT
+repository-code: "https://github.com/vamshibobby/jev-tau2-harness"
+authors:
+  - family-names: Atukuri
+    given-names: Sai Vamshi
+keywords:
+  - tool-calling agents
+  - decision models
+  - tau2-bench
+  - latency
+preferred-citation:
+  type: article
+  title: "System-1 Orchestration for Enterprise Conversational Agents: Typed Decisions Beside the LLM on τ²-Bench Airline"
+  authors:
+    - family-names: Atukuri
+      given-names: Sai Vamshi
+  year: 2026
+  notes: "Preprint (Preprints.org), DOI to be added"

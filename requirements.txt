@@ -1,0 +1,12 @@
+# tau2-bench, pinned to the commit the paper used (v1.0.1, 5bfa7e3). Runs and check_policy.py also need its airline
+# data, which is not in the package: see README ("Setup").
+tau2 @ git+https://github.com/sierra-research/tau2-bench.git@5bfa7e37b36656b37dc6d022156be6563c1007f3
+# tau2 imports its voice modules at start-up even for text runs
+websockets>=13.0
+audioop-lts>=0.2; python_version >= "3.13"
+httpx>=0.27
+python-dotenv>=1.0
+google-auth>=2.30
+requests>=2.31
+# figures in reproduce_tables.py (optional: the tables and CSVs are written without it)
+matplotlib>=3.8

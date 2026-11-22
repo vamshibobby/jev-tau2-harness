@@ -1,0 +1,29 @@
+.env
+.venv/
+vendor/
+__pycache__/
+*.pyc
+.DS_Store
+# written by reproduce_tables.py and eval_tau2.py
+reproduced/
+results/eval.json
+# your own runs; the 16 runs of the paper are committed
+results/*/
+results/*.log
+results/*.status
+!results/flash_alone/
+!results/flash_harness/
+!results/flashlite_alone/
+!results/flashlite_harness/
+!results/gemma_alone/
+!results/gemma_harness/
+!results/latency_flash_alone/
+!results/latency_flash_harness/
+!results/small_nemotron35_alone/
+!results/small_nemotron35_harness/
+!results/small_gemma31b_alone/
+!results/small_gemma31b_harness/
+!results/small_solarmini4_alone/
+!results/small_solarmini4_harness/
+!results/small_qwen35a3b_alone/
+!results/small_qwen35a3b_harness/

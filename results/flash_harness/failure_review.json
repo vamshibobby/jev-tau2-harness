@@ -1,0 +1,1688 @@
+[
+ {
+  "task": "7",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user simulator performed its role correctly. The agent successfully handled the primary tasks of cancelling one reservation and upgrading then cancelling another. However, the agent made several errors. It repeatedly violated the policy by making multiple tool calls in a single turn. More critically, it failed to meet a natural language assertion by miscalculating the total cost of all upcoming flights, instead providing the cost for only a subset of them. This resulted in a partial task failure.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 2,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 6 tool calls in a single turn, which violates the policy that states \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the tool calls one at a time, in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 11,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 5 tool calls in a single turn, which violates the policy that states \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the tool calls one at a time, in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 17,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 11 tool calls in a single turn, which violates the policy that states \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the tool calls one at a time, in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action",
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 37,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent failed to satisfy the Natural Language Assertion: 'Agent communicates that total cost of upcoming flights is $1,628.' The agent calculated the cost of *other* upcoming flights ($708), not the total cost of *all* upcoming flights. The user asked \"do I have any other upcoming flights? What's the total cost of those?\", and the agent correctly identified the 'other' flights but its interpretation of 'those' led to a total that did not match the assertion. The expected total should have included the two flights the user was in the process of cancelling ($402 + $306 + $296 + $624 = $1628).",
+    "correct_behavior": "The agent should have reported the total cost of all upcoming flights, which is $1,628, to satisfy the scenario's assertion."
+   }
+  ],
+  "cost": 0.05972125000000001
+ },
+ {
+  "task": "11",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user simulator performed its role flawlessly, adhering to all instructions, including its persona and contingency plan. The agent successfully addressed the user's request by downgrading the cabin class and correctly calculating the refund. However, the agent repeatedly violated the policy that states \"You should only make one tool call at a time\" across three separate turns. These errors were minor and did not affect the final outcome of the conversation.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made four tool calls in a single turn, which violates the policy: \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn. For example, call `get_user_details`, receive the response, and then call `get_reservation_details` for each reservation ID in subsequent turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 9,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made six tool calls in one turn, violating the \"one tool call at a time\" policy. Furthermore, after identifying reservation GV1N64 as the correct one in the previous step, it unnecessarily called `get_flight_status` for flights from two other, irrelevant reservations (AAVMM8 and MQHHT6).",
+    "correct_behavior": "The agent should have only checked the flight status for the two flights in the relevant reservation (GV1N64), and it should have made these two calls in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 18,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made two tool calls in a single turn, which violates the policy: \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have called `search_direct_flight` for the first flight, and then after receiving the response, made a second call in a new turn for the second flight."
+   }
+  ],
+  "cost": 0.04451875
+ },
+ {
+  "task": "23",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": true,
+  "critical_user_error": true,
+  "summary": "The agent correctly identified the user's needs and found a creative solution to fulfill their request. However, it made several minor policy violations by making multiple tool calls in a single turn. More critically, the agent cancelled the user's original reservation without getting explicit confirmation for the user's updated plan, which is a policy violation. The task ultimately failed because the user prematurely ended the conversation after giving the final go-ahead but before the agent could perform the actual booking tool calls.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made two tool calls in the same turn, violating the policy to only make one tool call at a time. Furthermore, the call to `get_reservation_details` was premature and irrelevant, as the user had only asked for their gift card and certificate balances and had not yet mentioned a reservation.",
+    "correct_behavior": "The agent should have first called `get_user_details` to answer the user's question. After the user brought up their reservation in a later turn, the agent could then have called `get_reservation_details`."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 7,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made three tool calls in the same turn, violating the policy to only make one tool call at a time. These calls to `get_flight_status` were also irrelevant at this stage, as the agent had not yet answered the user's initial question about account balances, and the conversation had not progressed to discussing the status of specific flights.",
+    "correct_behavior": "The agent should have first answered the user's question about balances from Turn 1. These flight status checks were unnecessary at this point in the conversation."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 13,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made four tool calls in the same turn, violating the policy to only make one tool call at a time.",
+    "correct_behavior": "The agent should have made the four flight search tool calls sequentially, each in a separate turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action",
+     "wrong_sequence"
+    ],
+    "severity": "critical",
+    "turn_idx": 22,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent cancelled the reservation before getting explicit confirmation for the user's new plan. In Turn 21, the user proposed a new, complex plan (booking three separate reservations) which superseded their previous request in Turn 19. The agent should have presented the full details of this new plan and asked for confirmation before taking any database-updating action, as required by policy. Instead, it immediately cancelled the reservation based on an outdated confirmation.",
+    "correct_behavior": "The agent should have first acknowledged the user's new plan, calculated the cost breakdown (as it did in Turn 24), presented the full plan (cancellation plus three new bookings), and then asked for a final confirmation to proceed with all actions. Only after receiving that confirmation should it have called `cancel_reservation`."
+   },
+   {
+    "source": "user",
+    "error_type": null,
+    "error_tags": [
+     "premature_termination"
+    ],
+    "severity": "critical_hindered",
+    "turn_idx": 25,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The user terminated the conversation immediately after giving the final confirmation to book the flights. The agent was actively making progress and was about to perform the necessary `book_reservation` tool calls. The user's premature termination prevented the agent from completing the main goal of the interaction, which was to change the reservation.",
+    "correct_behavior": "The user should have waited for the agent to acknowledge the confirmation and perform the booking actions, or at least confirm that the bookings were successful, before ending the conversation."
+   }
+  ],
+  "cost": 0.0667625
+ },
+ {
+  "task": "29",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": true,
+  "critical_user_error": true,
+  "summary": "The agent correctly handled a complex request to change flights by identifying that a cancellation and rebooking were necessary. The agent successfully found new flights according to the user's specific criteria, cancelled the original reservation, and prepared the new booking for final confirmation. However, the user simulator prematurely ended the conversation right after giving the final authorization, which prevented the agent from executing the final `book_reservation` tool call. This resulted in a task failure. The agent also committed two minor policy violations: making multiple tool calls in one turn and making a redundant tool call.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made four tool calls in a single turn. The policy explicitly states, \"You should only make one tool call at a time, and if you make a tool call, you should not respond to the user simultaneously.\"",
+    "correct_behavior": "The agent should have made the `get_flight_status` calls one by one in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 13,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made a redundant call to `get_user_details`. It had already called this tool in turn 9 and received the response in turn 10. There was no new information that required calling it again.",
+    "correct_behavior": "The agent should have used the user details it had already fetched in turn 10 and proceeded with the conversation without making a redundant tool call."
+   },
+   {
+    "source": "user",
+    "error_type": null,
+    "error_tags": [
+     "premature_termination"
+    ],
+    "severity": "critical_hindered",
+    "turn_idx": 30,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The user simulator terminated the conversation immediately after providing the final confirmation to book the new flight. This prevented the agent from making the `book_reservation` tool call, which was the final step required to complete the user's request. The task goal of changing the flights was not fully achieved because the new flights were never booked.",
+    "correct_behavior": "The user should have waited for the agent to confirm that the new reservation was successfully booked before ending the conversation with '###STOP###'."
+   }
+  ],
+  "cost": 0.06037875000000001
+ },
+ {
+  "task": "32",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user attempted to change their basic economy flight. The agent correctly identified that basic economy tickets cannot be modified directly but failed to understand that it could first upgrade the cabin to 'economy' (which is allowed by policy) and then perform the flight change. The agent prematurely offered a transfer. Even after the user explicitly suggested the cabin upgrade path, the agent still initiated a transfer, incorrectly claiming that this sequence of actions required a human agent. This critical misinterpretation of policy led to task failure. The agent also violated the policy by making multiple tool calls in a single turn on two occasions.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made five tool calls in a single turn, which violates the policy rule: \"You should only make one tool call at a time...\".",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 10,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made seven tool calls in a single turn, violating the policy rule: \"You should only make one tool call at a time...\".",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation",
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 18,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent correctly identified that basic economy flights cannot be modified but incorrectly concluded that it could not help and immediately offered a transfer. The policy allows changing the cabin class for basic economy tickets, which would then enable the flight modification. The agent failed to consider or propose this valid two-step solution, prematurely attempting to end the interaction.",
+    "correct_behavior": "The agent should have informed the user that while the flight cannot be changed directly on a basic economy ticket, it is possible to first upgrade the cabin to 'economy' and then proceed with the flight change. It should have asked the user if they would like to proceed with this option."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation",
+     "hallucination",
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 22,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "Even after the user explicitly stated they were willing to upgrade the cabin class (a valid action according to the policy), the agent decided to transfer to a human agent. The reason provided in the transfer summary, \"changing cabin class to circumvent the flight change rule...requires human agent assistance,\" is a hallucination, as no such restriction exists in the policy. The policy clearly allows upgrading the cabin on basic economy tickets. This critical error led directly to task failure.",
+    "correct_behavior": "After finding the nonstop flight in turn 20, the agent should have proposed the two-step change to the user. First, it should have offered to upgrade the cabin to 'economy' for the existing reservation. Upon user confirmation, it should have performed that action. Then, it should have offered to change the flights to the new nonstop flight it had found."
+   }
+  ],
+  "cost": 0.05056875
+ },
+ {
+  "task": "35",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent correctly identified that the user's flight was not eligible for a refund and communicated this clearly. However, it made several procedural errors, including making multiple tool calls at once, violating its policy. The most critical error was transferring the user to a human agent despite the user explicitly requesting not to be transferred. This action prematurely ended the conversation and prevented the user from completing the second part of their task, which was to book a new flight.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made multiple tool calls in a single turn, which violates the policy that states, \"You should only make one tool call at a time...\". The agent called `get_user_details` and `get_reservation_details` four times concurrently.",
+    "correct_behavior": "The agent should have first called `get_user_details` to retrieve the list of reservation IDs. Then, it should have called `get_reservation_details` for each reservation one by one until it found the one matching the user's description."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 10,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent again violated the \"one tool call at a time\" policy by making eight concurrent calls to `get_flight_status`. Furthermore, most of these calls were irrelevant, as they were for reservations the user had not asked about. The agent only needed to check the status of the flights for the reservation being cancelled, if at all.",
+    "correct_behavior": "The agent should have only checked the flight status for the relevant reservation (M20IZO) and should have made the tool calls sequentially, not concurrently."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "inconsistent_behavior",
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 25,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent decided to transfer the user to a human agent, directly contradicting the user's explicit instruction in turn 22: \"And no, I don't want to be transferred to a human agent.\" The agent's policy is to transfer only when a request cannot be handled, but denying a refund is within its capabilities. The agent should have continued to politely refuse the refund, as it is against policy. This premature transfer prevented the user from moving on to the second part of their task (booking a new flight).",
+    "correct_behavior": "The agent should have respected the user's wish not to be transferred and should have reiterated that a refund was not possible according to the policy. For example: \"I have reviewed the policy again, and I must confirm that a refund is not possible for this reservation under the current circumstances. Would you like to proceed with modifying the flight instead, or is there anything else I can help you with?\""
+   }
+  ],
+  "cost": 0.03732125
+ },
+ {
+  "task": "33",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent successfully modified the user's flight reservation and added baggage as requested. However, the agent made several minor errors along the way, including making multiple tool calls in a single turn (violating policy), making numerous irrelevant tool calls for reservations not being discussed, and offering a flight option that didn't match the user's time constraints. Despite these inefficiencies, the agent correctly applied complex business rules regarding cabin class changes and baggage allowances, ultimately completing the task successfully. The user simulator performed its role without any errors.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made three tool calls in a single turn. The policy states: \"You should only make one tool call at a time, and if you make a tool call, you should not respond to the user simultaneously.\"",
+    "correct_behavior": "The agent should have made the tool calls sequentially in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 10,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made four tool calls in a single turn, violating the policy to only make one at a time. Furthermore, three of these calls (`get_reservation_details` for DXG8T6, 46BBSE, P9VXUO) were irrelevant, as the user had only specified their interest in reservation HXDUBJ. The agent should have waited for the `get_user_details` call to return and see the list of reservations before deciding if fetching others was necessary, but even then it was not prompted by the user.",
+    "correct_behavior": "The agent should have only called `get_user_details` in this turn, as that was the only relevant action to verify the user's identity."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 15,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made eight tool calls in a single turn, violating the policy to only make one at a time. All of these calls were irrelevant as they were checking the status of flights belonging to other reservations that the user never asked about.",
+    "correct_behavior": "The agent should not have made these tool calls at all. It should have proceeded with finding new flights for the reservation the user was actually discussing (HXDUBJ)."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 28,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent searched for one-stop flights for the return leg, even though it had already found direct flight options, one of which met the user's time preferences. This tool call was unnecessary.",
+    "correct_behavior": "The agent should have analyzed the direct flight options it had already found and presented the suitable ones to the user without searching for more complex one-stop options."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation"
+    ],
+    "severity": "minor",
+    "turn_idx": 30,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent offered flight HAT082 as an option for the return flight. This flight departs at 23:00 EST, which is outside the user's stated preference for a departure time \"before 9 PM\".",
+    "correct_behavior": "The agent should have filtered out flight HAT082 and only presented the options that fit the user's time constraints, which in this case was only flight HAT278."
+   }
+  ],
+  "cost": 0.062427500000000004
+ },
+ {
+  "task": "39",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user wanted to cancel all their upcoming flights. The agent correctly identified the user's reservations, distinguished between past and upcoming flights, and correctly applied the cancellation policy to determine which flights were eligible for cancellation and a refund. The agent then cancelled the two eligible flights after receiving user confirmation. The agent correctly refused to cancel the other three upcoming flights, as they did not meet the policy's criteria for cancellation, despite the user's request to cancel them even without a refund. The agent's only error was making 25 tool calls in a single turn, which violates the policy of one tool call at a time. This error did not affect the final outcome.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 6,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 25 tool calls in a single turn, which violates the policy rule \"You should only make one tool call at a time, and if you make a tool call, you should not respond to the user simultaneously.\" While the system processed the calls and the agent received the necessary information, this is a direct violation of a core policy guideline.",
+    "correct_behavior": "The agent should have made the tool calls sequentially. For instance, it should first call `get_user_details`. Then, it should iterate through the list of reservations, calling `get_reservation_details` for each one. After examining the details of each reservation (e.g., flight dates), it could then decide whether a `get_flight_status` call is necessary for any upcoming flights, making those calls one by one as well."
+   }
+  ],
+  "cost": 0.06716125
+ },
+ {
+  "task": "44",
+  "trial": 0,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent successfully handled parts of a complex, multi-step request, including identifying flight durations, correctly applying cancellation policies, and upgrading two reservations. However, it made several critical errors. It repeatedly violated policy by making multiple tool calls in a single turn. More importantly, it misinterpreted the user's criteria for which flights to upgrade, causing it to fail to offer an upgrade for one of the eligible reservations (KC18K6). This resulted in an incomplete fulfillment of the user's goal and providing an incorrect total cost.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 16 tool calls in a single turn. The policy explicitly states: \"You should only make one tool call at a time...\"",
+    "correct_behavior": "The agent should have made a series of individual tool calls, each in its own turn, to gather the necessary information."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 21,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 5 tool calls in a single turn. The policy explicitly states: \"You should only make one tool call at a time...\"",
+    "correct_behavior": "The agent should have made a series of individual tool calls, each in its own turn, to gather the necessary information."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 29,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 3 tool calls in a single turn. The policy explicitly states: \"You should only make one tool call at a time...\"",
+    "correct_behavior": "The agent should have made a series of individual tool calls, each in its own turn, to gather the necessary information."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation",
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 33,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent misinterpreted the user's request to upgrade flights that are \"3 hours or less, including layovers.\" For reservation KC18K6, the agent calculated the total travel time (including a layover) to be 7 hours and therefore excluded it from the upgrade options. However, the user's instruction should be interpreted as applying to individual flight segments. Both flights in KC18K6 (one is 3 hours, the other is 2 hours) meet the criteria and should have been eligible for an upgrade. This misinterpretation caused the agent to miss a required action and present an incorrect total cost to the user.",
+    "correct_behavior": "The agent should have identified that the individual flights within reservation KC18K6 were 3 hours or less and included it in the list of reservations eligible for an upgrade, presenting the associated cost to the user."
+   }
+  ],
+  "cost": 0.07039875000000001
+ },
+ {
+  "task": "23",
+  "trial": 1,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent successfully completed a complex, multi-step task that involved looking up account information, searching for flights, understanding and explaining multiple options (upgrade vs. cancel/rebook), and adapting to a creative user-proposed solution to a policy limitation. The user simulator also performed perfectly, following a very detailed set of instructions to guide the conversation. The only errors were minor, repeated violations of the policy that prohibits making multiple tool calls in a single turn. These errors did not negatively impact the final outcome.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time, and if you make a tool call, you should not respond to the user simultaneously.\" The agent made two tool calls in this turn (`get_user_details` and `get_reservation_details`).",
+    "correct_behavior": "The agent should have made the `get_user_details` call, received the response, and then made the `get_reservation_details` call in the next turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 9,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time...\" The agent made three `get_flight_status` tool calls in this single turn.",
+    "correct_behavior": "The agent should have made each `get_flight_status` call sequentially in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 13,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time...\" The agent made four flight search tool calls in this single turn.",
+    "correct_behavior": "The agent should have made each flight search call sequentially in separate turns."
+   }
+  ],
+  "cost": 0.05459125000000001
+ },
+ {
+  "task": "29",
+  "trial": 1,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent failed to complete the user's request. While it correctly identified that the policy prohibits changing the destination of a flight via modification, it failed to propose the correct workaround: cancelling the existing flight (which was permissible due to the user's travel insurance) and booking a new one. Instead, it prematurely transferred the user to a human agent, resulting in task failure. The agent also violated policy by making multiple tool calls in a single turn on two separate occasions. The user simulator performed its role correctly.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made two tool calls in a single turn ('get_user_details' and 'get_reservation_details'). The policy explicitly states, \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the 'get_user_details' call, received the response, and then made the 'get_reservation_details' call in the next turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 7,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made four tool calls in a single turn (four instances of 'get_flight_status'). The policy explicitly states, \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made each tool call sequentially in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 12,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent prematurely transferred the user to a human agent, failing the task. While it correctly identified that changing a flight's destination is not allowed under the modification policy, it failed to identify and propose the viable alternative of cancelling the flight and rebooking. The user had travel insurance and a stated health reason, which allows for cancellation. The agent should have proposed this \"cancel and rebook\" solution instead of giving up.",
+    "correct_behavior": "The agent should have informed the user that it's not possible to change the destination of an existing flight, but because they have travel insurance, they can cancel the current reservation and book a new one. It should have then proceeded to help with the cancellation and new booking."
+   }
+  ],
+  "cost": 0.034336250000000006
+ },
+ {
+  "task": "35",
+  "trial": 1,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent correctly identified the user's reservation and correctly determined that it was not eligible for a cancellation with a refund based on the policy. However, when the user insisted (as per their instructions), the agent decided to transfer the user to a human agent after only three attempts. This was a critical error for two reasons: 1) The user had explicitly stated they did not want to be transferred. 2) This action prematurely ended the conversation, preventing the user from moving on to their second task of booking a new flight. The agent also made minor procedural errors by bundling multiple tool calls into single turns.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "wrong_sequence"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made multiple tool calls in a single turn, which violates the policy: \"You should only make one tool call at a time\". Additionally, it called `get_reservation_details` for specific reservation IDs before it could have possibly received them from the `get_user_details` call's response, which is a `wrong_sequence` error.",
+    "correct_behavior": "The agent should have first called `get_user_details`. After receiving the response with the list of reservation IDs, it should have then made separate tool calls for each `get_reservation_details` one by one."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 10,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made multiple tool calls in a single turn, which violates the policy: \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have called `get_flight_status` for each flight in a separate turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 27,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent decided to transfer the user to a human agent, even though the user had explicitly stated in turn 24, \"No, I don't want to be transferred.\" This violates the user's stated preference. Furthermore, the user had a second, unstated task (booking a new flight). By transferring the user, the agent prematurely ended the interaction and failed to address the user's full set of needs, thus missing the required action of booking a flight.",
+    "correct_behavior": "The agent should have continued to engage with the user regarding the cancellation policy. Since the user's instructions were to try five times and then move on, the agent should have reiterated the policy again. This would have allowed the user to eventually give up on the cancellation and proceed with their second request to book a flight."
+   }
+  ],
+  "cost": 0.03598875
+ },
+ {
+  "task": "39",
+  "trial": 1,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user simulator performed its role correctly, adhering to its persona and instructions. The agent successfully identified which flights were eligible for cancellation based on the policy and the user's stated reason. It correctly cancelled the two eligible flights and offered to transfer the user to a human agent for the flights it could not cancel. However, the agent committed a critical policy violation by making 26 tool calls in a single turn, when the policy explicitly forbids making more than one at a time.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "critical",
+    "turn_idx": 6,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 26 tool calls in a single turn. This is a direct violation of the policy, which states: \"You should only make one tool call at a time\".\n\nAdditionally, several of the `get_flight_status` calls were for flights that had already passed (e.g., dates on May 3rd, 4th, and 9th, when the current date is May 15th). The agent should have first retrieved the reservation details and filtered out past reservations before checking the status of individual flights.",
+    "correct_behavior": "The agent should have made a sequence of individual tool calls. First, it should have called `get_reservation_details` for each reservation one by one. After analyzing the returned dates and determining which reservations were for upcoming travel, it should have then proceeded to check the status of only the relevant, upcoming flights, again using one tool call per flight."
+   }
+  ],
+  "cost": 0.05573500000000001
+ },
+ {
+  "task": "44",
+  "trial": 1,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent successfully addressed the user's requests, correctly identifying which flights to upgrade and calculating the costs accurately. It also correctly applied the cancellation policy. However, the agent committed critical policy violations by making a large number of tool calls in parallel in two separate turns, directly contradicting the guideline to only make one tool call at a time. The user simulator performed its role correctly without any errors.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent violated the policy which states, \"You should only make one tool call at a time.\" In this turn, the agent made 16 tool calls simultaneously (5 `get_reservation_details` and 11 `get_flight_status`). This is a direct and significant violation of a core operational guideline.",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one at a time, waiting for the response to each call before making the next one."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 21,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent again violated the policy which states, \"You should only make one tool call at a time.\" In this turn, the agent made 9 `search_direct_flight` tool calls simultaneously. This is a repeated violation of the same core operational guideline.",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one at a time, waiting for the response to each call before making the next one."
+   }
+  ],
+  "cost": 0.06510125000000001
+ },
+ {
+  "task": "7",
+  "trial": 2,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user simulator correctly followed all instructions. The agent, however, failed to complete the task. The primary error was the agent hallucinating a policy that forbids upgrading a Basic Economy ticket in order to cancel it. Based on this invented rule, the agent incorrectly refused the user's request and ultimately transferred them to a human agent, leading to task failure. The agent also repeatedly violated the policy of making only one tool call per turn and failed to report the total cost of all upcoming flights as required by the natural language assertions.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 2,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time, and if you make a tool call, you should not respond to the user simultaneously.\" The agent violated this rule by making six tool calls in a single turn. It repeated this violation in turns 11 (5 calls) and 17 (11 calls).",
+    "correct_behavior": "The agent should make only one tool call per turn, wait for the response, and then decide on the next action or tool call."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "hallucination",
+     "incorrect_interpretation",
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 35,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent invented a policy, stating, \"Upgrading a non-refundable Basic Economy ticket specifically to bypass cancellation rules and receive a refund is not permitted under our policy.\" The actual policy allows for cabin changes on all reservations, including Basic Economy. Once upgraded to a Business flight, the reservation would become cancellable. This hallucinated restriction directly caused the agent to refuse a valid request and led to task failure.",
+    "correct_behavior": "The agent should have followed the policy, which allows for cabin changes. It should have proceeded to calculate the cost of upgrading reservation XEHM4B to business class, confirmed with the user, and then performed the upgrade before proceeding with the cancellation."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action",
+     "incorrect_interpretation"
+    ],
+    "severity": "minor",
+    "turn_idx": 35,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent failed to satisfy the Natural Language Assertion: 'Agent communicates that total cost of upcoming flights is $1,628.' The agent interpreted the user's request for \"other upcoming flights\" as excluding the two reservations already under discussion, and calculated a partial total of $708. While this is a plausible interpretation of the user's text, it failed to meet the mandatory assertion.",
+    "correct_behavior": "To satisfy the assertion, the agent should have calculated and stated the total cost of all upcoming reservations (XEHM4B, 59XX6W, 7WPL39, 3EMQJ6), which is $1,628."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action",
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 37,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent incorrectly transferred the user to a human agent because it believed the user's valid request was against policy. The policy allows for the requested actions (cabin upgrade, then cancellation). Transferring the user when the agent is capable of handling the request is a failure to complete the task.",
+    "correct_behavior": "The agent should not have initiated a transfer. Instead, it should have complied with the user's repeated request to upgrade the cabin class on reservation XEHM4B."
+   }
+  ],
+  "cost": 0.06340625000000001
+ },
+ {
+  "task": "20",
+  "trial": 2,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent successfully guided the user through the booking process, correctly identifying user preferences, applying policies regarding payment and baggage, and asking for final confirmation. However, the agent committed critical errors in tool usage by repeatedly making multiple tool calls in a single turn, which violates policy. It also made several irrelevant tool calls to get reservation details for a new booking, demonstrating flawed reasoning. The user simulator performed its role correctly.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 2,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time\". In this turn, the agent made two tool calls simultaneously (`search_direct_flight` and `search_onestop_flight`).",
+    "correct_behavior": "The agent should have made one tool call, waited for the response, and then made the second tool call if needed."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "critical",
+    "turn_idx": 7,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made four tool calls simultaneously, violating the policy that states \"You should only make one tool call at a time\". Furthermore, three of the calls (`get_reservation_details`) were irrelevant to the user's request to book a new flight. The user did not provide any reservation IDs, and information about past reservations is not needed for a new booking.",
+    "correct_behavior": "The agent should have called `get_user_details` to get the user's profile and membership status. It should not have made any calls to `get_reservation_details` as they were not relevant to the current task of booking a new flight."
+   }
+  ],
+  "cost": 0.041198750000000006
+ },
+ {
+  "task": "23",
+  "trial": 2,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user simulator flawlessly executed a complex set of instructions, including proposing an alternative booking strategy to maximize savings. The agent successfully understood the user's goals, performed the correct calculations, and followed the confirmation policy. The only errors were procedural: on two occasions, the agent violated the policy of making only one tool call per turn. These errors were minor and did not negatively impact the successful outcome of the conversation.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made two tool calls in a single turn (`get_user_details` and `get_reservation_details`). The policy states, \"You should only make one tool call at a time...\". Additionally, the second tool call to get reservation details was premature, as the user had not yet mentioned wanting to discuss a reservation.",
+    "correct_behavior": "The agent should have made only one tool call for `get_user_details`, then after receiving the response and answering the user's first question, it should have waited for the user to bring up their second question about the reservation before making another tool call."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 9,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made three tool calls (`get_flight_status`) in a single turn. This violates the policy which states, \"You should only make one tool call at a time...\".",
+    "correct_behavior": "The agent should have made the three `get_flight_status` calls sequentially in separate turns."
+   }
+  ],
+  "cost": 0.059632500000000005
+ },
+ {
+  "task": "32",
+  "trial": 2,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent made several minor guideline violations by issuing multiple tool calls at once. The critical failure was due to the agent's misinterpretation of the policy regarding Basic Economy tickets. It incorrectly concluded that it was impossible to change the flight, even after a cabin upgrade. When the user explicitly suggested a two-step process (upgrade first, then change the flight), the agent ignored this valid request and prematurely transferred the user to a human agent, thereby failing the task. The user simulator performed its role without any errors.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made multiple tool calls in a single turn, which violates the policy: 'You should only make one tool call at a time'. The agent made 5 tool calls simultaneously.",
+    "correct_behavior": "The agent should have made the tool calls one at a time, processing the response to each before making the next call."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 10,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made multiple tool calls in a single turn, which violates the policy: 'You should only make one tool call at a time'. The agent made 7 tool calls simultaneously.",
+    "correct_behavior": "The agent should have made the tool calls one at a time, processing the response to each before making the next call."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 20,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made two tool calls in a single turn, violating the policy 'You should only make one tool call at a time'. Additionally, the call to `search_onestop_flight` was irrelevant, as the user had specifically requested a 'nonstop flight' in the previous turn.",
+    "correct_behavior": "The agent should have only called the `search_direct_flight` tool."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 23,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent incorrectly interpreted the policy about modifying Basic Economy tickets. The policy states, 'Basic economy flights cannot be modified.' The agent wrongly concluded that a ticket *originally* booked as Basic Economy could never be modified, even after upgrading the cabin class. The logical process would be to upgrade the ticket to Economy, after which it would no longer be a 'basic economy flight' and would be subject to the modification rules of an Economy ticket. This misinterpretation led the agent to believe it could not fulfill the user's request.",
+    "correct_behavior": "The agent should have understood that after upgrading the cabin to Economy, the flight would become modifiable. It should have proposed this two-step solution to the user."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "premature_termination",
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 25,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent initiated a transfer to a human agent, which was a premature termination of its own task and a violation of the transfer policy. The user, in turn 24, explicitly asked the agent to first try upgrading the ticket to Economy to see if that would allow for a flight change. This was a valid, step-by-step request that the agent was capable of handling. The policy states to transfer 'if and only if the request cannot be handled within the scope of your actions.' Since the request was within scope, the agent should have attempted it instead of transferring.",
+    "correct_behavior": "The agent should have followed the user's instruction to first attempt to upgrade the cabin class from Basic Economy to Economy using the `update_reservation_flights` tool."
+   }
+  ],
+  "cost": 0.05973500000000001
+ },
+ {
+  "task": "33",
+  "trial": 2,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user simulator performed its role flawlessly, following a complex set of instructions with multiple steps and contingencies. The agent successfully completed all parts of the user's request, including modifying the flights and adding baggage. However, the agent repeatedly violated the policy by making multiple tool calls in a single turn and made several irrelevant tool calls by gathering information on all of the user's reservations instead of just the one specified. These errors were minor and did not affect the final successful outcome.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made three tool calls in a single turn, which violates the policy: \"You should only make one tool call at a time...\"",
+    "correct_behavior": "The agent should have made the tool calls one at a time in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action"
+    ],
+    "severity": "minor",
+    "turn_idx": 8,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent asks for the user's ID, even though it was already provided in the tool response from the `get_reservation_details` call in turn 3. The agent should have noted the user ID from the tool response and proceeded without asking the user for it again.",
+    "correct_behavior": "The agent should have used the user ID 'yara_garcia_1905' from the tool response in turn 3 and only asked what changes the user would like to make."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 10,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made four tool calls in one turn, violating the \"one tool call at a time\" policy. Furthermore, three of these calls (`get_reservation_details` for DXG8T6, 46BBSE, and P9VXUO) were irrelevant, as the user had already specified the reservation they wanted to modify (HXDUBJ).",
+    "correct_behavior": "The agent should have only made the single relevant tool call, `get_user_details`, and proceeded with the user's request for reservation HXDUBJ."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 15,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made eight tool calls in one turn, violating the \"one tool call at a time\" policy. All of these calls were irrelevant, as they were to check the flight status for reservations the user had not asked about. The agent had already checked the status for the relevant reservation in turn 4.",
+    "correct_behavior": "The agent should not have made any of these tool calls and should have proceeded to search for new flights based on the user's request."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 28,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made an irrelevant tool call to `search_onestop_flight`. The user specifically requested a \"nonstop flight\" for the outbound leg, and the agent had already found suitable nonstop options for both legs of the journey in previous turns (24 and 26).",
+    "correct_behavior": "The agent should have proceeded with the nonstop flight options it had already found and presented them to the user, without searching for one-stop options."
+   }
+  ],
+  "cost": 0.049892500000000006
+ },
+ {
+  "task": "35",
+  "trial": 2,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user simulator followed all instructions correctly. The agent correctly determined it could not cancel the initial flight according to policy, but then got stuck in a repetitive loop of trying to transfer the user, violating its own guidelines on adaptability. The agent then critically failed the second part of the task. Despite the user explicitly asking for the 'second cheapest' flight, the agent only presented the cheapest option and booked it, failing to interpret the user's request correctly and ignoring relevant tool results. The agent also repeatedly violated the 'one tool call at a time' policy.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time\". In this turn, the agent made five tool calls simultaneously. This same error was repeated in turn 10 (eight calls) and turn 39 (two calls).",
+    "correct_behavior": "The agent should have made one tool call, waited for the response, and then decided on the next action, continuing this process sequentially."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "inconsistent_behavior"
+    ],
+    "severity": "minor",
+    "turn_idx": 27,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "After the user refused the initial transfer, the agent explained its reasoning (which was good) but then got stuck in a loop. In this turn, and again in turns 31 and 35, the agent repeatedly calls `transfer_to_human_agents` without acknowledging the user's continued refusal to be transferred. An effective agent should not get stuck in a repetitive loop when a user provides new input.",
+    "correct_behavior": "After the user's first refusal (turn 24), the agent should have explained its limitations (as it did in turn 25) and then waited for the user's response. If the user continued to insist on an impossible action, the agent should have reiterated that it cannot perform the action and asked if there is anything else it can help with, rather than repeatedly initiating a transfer the user has already rejected."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action",
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 42,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The user's instructions were to book the 'second cheapest flight in economy class'. The agent correctly searched for both direct and one-stop flights, but then only presented the cheapest option (a direct flight for $163). It completely ignored the results from its `search_onestop_flight` call. The second cheapest option was a one-stop flight for $290. By not presenting this option, the agent failed to follow the user's instructions and ultimately booked a flight that did not match the user's stated preference.",
+    "correct_behavior": "The agent should have analyzed all flight search results, calculated the total prices for the one-stop options, and presented the user with the actual second-cheapest economy flight, which was the one-stop flight via SEA (HAT069 + HAT258) for $290."
+   }
+  ],
+  "cost": 0.06027625
+ },
+ {
+  "task": "39",
+  "trial": 2,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent correctly identified the user's request and most of the reservations. However, it committed a critical policy violation by making 25 tool calls in a single turn. The agent correctly followed its cancellation policy, identifying two reservations it could cancel and offering a transfer for the others that were outside its scope. The agent successfully cancelled the two flights as requested, but then failed to confirm this success to the user before transferring them. The user simulator performed its role correctly. It's worth noting there's a conflict between the agent's correct interpretation of its policy and the `Natural Language Assertions`, which expected a third reservation to be cancelled that the agent was not permitted to cancel.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time\". In this turn, the agent made 25 tool calls simultaneously (7 get_reservation_details and 18 get_flight_status calls). This is a direct and significant violation of the policy.",
+    "correct_behavior": "The agent should have made one tool call at a time. For example, it could have fetched the user's reservations, then iteratively fetched the details for each one to determine if it was upcoming before proceeding."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action"
+    ],
+    "severity": "minor",
+    "turn_idx": 40,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "After successfully cancelling reservations 8C8K4E and LU15PA (in turns 34-37), the agent never confirmed to the user that these actions were completed. It proceeded directly to transferring the user. A confirmation message is a required step for good customer service and to close the loop on the user's request.",
+    "correct_behavior": "After the successful cancellation tool calls, the agent should have sent a confirmation message, such as: \"I have successfully cancelled reservations 8C8K4E and LU15PA. Refunds will be issued to the original payment methods. Now, as you requested, I will transfer you to a human agent for the other reservations.\""
+   }
+  ],
+  "cost": 0.060472750000000006
+ },
+ {
+  "task": "44",
+  "trial": 2,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The user simulator followed its instructions perfectly. The agent made several errors. It violated policy by making numerous tool calls at once. More critically, it miscalculated the costs for two flight upgrades by improperly accounting for insurance fees. This led it to quote the user an incorrect total cost ($587 instead of the actual $647 that was charged). The agent also failed to obtain explicit 'yes' confirmation before processing the payments, another policy violation. Despite these errors, the agent did successfully perform the requested upgrades (at the correct, higher price) and correctly handled the non-cancellable flights by offering a transfer.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 16 tool calls in a single turn, which violates the policy: \"You should only make one tool call at a time, and if you make a tool call, you should not respond to the user simultaneously.\"",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn, and awaited the response for each before proceeding to the next."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 37,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent incorrectly calculated the upgrade costs for two reservations. For `NM1VX1`, it quoted a difference of $454 instead of the correct $484. For `H8Q05L`, it quoted $133 instead of the correct $163. In both cases, the agent wrongly subtracted the total original payment (including the non-refundable $30 insurance fee) from the new flight price, instead of only subtracting the original flight fare. This resulted in underquoting the price to the user, which is a critical error in financial communication.",
+    "correct_behavior": "The agent should calculate the price difference as (new flight price - old flight price). For NM1VX1: $637 (new price) - $153 (old price) = $484. For H8Q05L: $237 (new price) - $74 (old price) = $163. The agent should have quoted these correct amounts."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 39,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent provided a total upgrade cost of $587, which was the sum of its previously miscalculated prices. The correct total cost was $647 ($484 + $163). This reinforced the financial misinformation given to the user. The user was ultimately charged $647, which is $60 more than the total quoted by the agent, without being informed of the discrepancy.",
+    "correct_behavior": "The agent should have calculated and presented the correct total cost of $647."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "missed_required_action"
+    ],
+    "severity": "minor",
+    "turn_idx": 41,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent proceeded with the `update_reservation_flights` tool call without getting explicit confirmation as required by the policy. The policy states, \"you must list the action details and obtain explicit user confirmation (yes) to proceed.\" The user's general agreement in turn 40 (\"I would like to proceed with the upgrades\") is not the explicit 'yes' confirmation the policy requires for a specific action.",
+    "correct_behavior": "The agent should have presented the final action and cost and asked for a 'yes' to confirm, for example: \"I am ready to upgrade reservation NM1VX1 which will charge $484 to your card. Shall I proceed? Please respond with 'yes'.\""
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "missed_required_action"
+    ],
+    "severity": "minor",
+    "turn_idx": 43,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent again proceeded with an `update_reservation_flights` tool call without getting explicit confirmation as required by the policy. The policy states, \"you must list the action details and obtain explicit user confirmation (yes) to proceed.\"",
+    "correct_behavior": "The agent should have presented the final action and cost and asked for a 'yes' to confirm, for example: \"I am ready to upgrade reservation H8Q05L which will charge $163 to your card. Shall I proceed? Please respond with 'yes'.\""
+   }
+  ],
+  "cost": 0.06606975
+ },
+ {
+  "task": "7",
+  "trial": 3,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent successfully completed the user's complex request, which involved cancelling one reservation, upgrading another, and then cancelling it. The user simulator followed its instructions perfectly. However, the agent made several errors. It repeatedly violated policy by making multiple tool calls in a single turn. It also acted prematurely on information it should not have had yet. Finally, it misinterpreted the user's question about the total cost of other flights, causing it to fail a Natural Language Assertion.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 2,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made six tool calls in a single turn, which violates the policy rule: \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 11,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made five tool calls in a single turn, which violates the policy rule: \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "inconsistent_behavior"
+    ],
+    "severity": "minor",
+    "turn_idx": 11,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent proactively begins investigating the user's other reservations before the user has asked about them. The user instructions state they will ask about other flights \"after the third agent message\" (which happens at Turn 18). The agent beginning this work at Turn 11 suggests it has premature access to the user's full intent, which is unrealistic.",
+    "correct_behavior": "The agent should have waited for the user to ask about other flights before using tools to investigate them."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 19,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made eleven tool calls in a single turn, which violates the policy rule: \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 31,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made two tool calls in a single turn, which violates the policy rule: \"You should only make one tool call at a time\".",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "wrong_sequence"
+    ],
+    "severity": "minor",
+    "turn_idx": 34,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "In turn 18, the user gave explicit confirmation to cancel reservation 59XX6W. The agent then proceeded to make numerous other tool calls for the user's other requests before finally cancelling the reservation in turn 34. This is an illogical sequence and delays a confirmed action.",
+    "correct_behavior": "The agent should have cancelled reservation 59XX6W immediately after the user's confirmation in turn 18, before proceeding with the other requests."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation",
+     "missed_required_action"
+    ],
+    "severity": "minor",
+    "turn_idx": 36,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent failed to satisfy the Natural Language Assertion: 'Agent communicates that total cost of upcoming flights is $1,628.' The agent interpreted the user's request for the cost of \"other upcoming flights\" to mean excluding the two reservations being cancelled, resulting in a total of $708. The required assertion indicates the agent should have calculated the cost of all upcoming flights, including the ones being discussed for cancellation ($402 + $306 + $296 + $624 = $1628).",
+    "correct_behavior": "The agent should have stated that the total cost of all upcoming reservations is $1,628 to satisfy the assertion."
+   }
+  ],
+  "cost": 0.0664975
+ },
+ {
+  "task": "23",
+  "trial": 3,
+  "agent_error": true,
+  "user_error": true,
+  "critical_user_error": true,
+  "summary": "The agent successfully answered the user's initial questions about their account balances and correctly identified the cheapest flight options. It also correctly handled the user's creative suggestion to book three separate reservations to maximize the use of travel certificates. However, the agent made several minor policy violations by making multiple tool calls in a single turn. The task ultimately failed because the user prematurely ended the conversation after giving the final confirmation to book, but before the agent could execute the bookings.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time...\". The agent made two tool calls (`get_user_details` and `get_reservation_details`) in the same turn.",
+    "correct_behavior": "The agent should have made the `get_user_details` tool call, and after receiving the response, made the `get_reservation_details` tool call in a subsequent turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 7,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time...\". The agent made three `get_flight_status` tool calls in the same turn.",
+    "correct_behavior": "The agent should have made the three tool calls sequentially in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 13,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The policy states, \"You should only make one tool call at a time...\". The agent made four search-related tool calls in the same turn.",
+    "correct_behavior": "The agent should have made the four tool calls sequentially in separate turns."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 22,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made a redundant call to `get_user_details`. It had already successfully called this tool and received the user's information in turns 4 and 5.",
+    "correct_behavior": "The agent should have reused the user details it had already fetched instead of making a new tool call."
+   },
+   {
+    "source": "user",
+    "error_type": null,
+    "error_tags": [
+     "premature_termination"
+    ],
+    "severity": "critical_hindered",
+    "turn_idx": 27,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The user ended the conversation with '###STOP###' immediately after giving confirmation to book the new flights. This prevented the agent from performing the actual booking actions (`book_reservation` tool calls), leaving the main task of changing the reservation incomplete. The agent was on the correct path and had just received the user's go-ahead, but was not given a chance to act on it.",
+    "correct_behavior": "After confirming the plan, the user should have waited for the agent to complete the booking process and confirm its success before ending the conversation."
+   }
+  ],
+  "cost": 0.07141125000000001
+ },
+ {
+  "task": "32",
+  "trial": 3,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent failed to complete the user's request. After identifying the user's reservation as a basic economy ticket, the agent incorrectly concluded that no changes were possible and initiated a transfer to a human agent. The agent missed the opportunity to first upgrade the cabin to economy (which is allowed by the policy) and then proceed with the flight change, which was the user's intended goal as per their instructions. The agent also violated policy by making multiple tool calls in single turns.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent violated the policy of making only one tool call at a time. It made five tool calls in a single turn.",
+    "correct_behavior": "The agent should have first called `get_user_details`, then processed the response to find the user's reservations, and then called `get_reservation_details` for each relevant reservation one by one."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation",
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 10,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent again violated the one-tool-call-at-a-time policy by making seven calls. Furthermore, these calls were mostly irrelevant. After identifying the user's reservations, the agent checked the flight status for flights from all reservations, including ones that had already passed. It should have focused only on the upcoming reservation the user wanted to change (OWZ4XL).",
+    "correct_behavior": "The agent should have focused on the single relevant reservation (OWZ4XL) identified from the user's query and previous tool calls. There was no need to check the status of flights from other past or irrelevant reservations."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "premature_termination",
+     "missed_required_action",
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 18,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent prematurely transferred the user to a human agent, leading to task failure. It correctly identified the ticket as 'basic_economy' but incorrectly concluded that no modifications were possible. The policy allows for cabin upgrades on basic economy tickets, and the user's instructions specified a willingness to upgrade to 'economy' in order to change the flight. The agent failed to explore this valid solution path.",
+    "correct_behavior": "The agent should have informed the user about the 'basic_economy' restriction on flight changes and then offered the option to first upgrade the cabin to 'economy' (which is allowed by policy) and then proceed to change the flight. This would have aligned with the user's instructions and allowed the task to be completed."
+   }
+  ],
+  "cost": 0.04649125
+ },
+ {
+  "task": "33",
+  "trial": 3,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent successfully completed all parts of the user's request. However, it made several significant errors along the way. Early in the conversation, the agent became distracted and made a large number of irrelevant tool calls related to the user's other reservations, wasting time and resources. More critically, towards the end, the agent failed to follow the correct procedure for a multi-part modification. When the user added requests for a cabin upgrade and baggage after confirming the initial flight change, the agent executed the flight change prematurely instead of pausing to address the new requests and getting a final, consolidated confirmation. Despite these process and policy violations, the final outcome was correct.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made multiple tool calls at the same time, which violates the policy: \"You should only make one tool call at a time...\"",
+    "correct_behavior": "The agent should have made the `get_flight_status` calls sequentially, one per turn."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "inconsistent_behavior"
+    ],
+    "severity": "minor",
+    "turn_idx": 10,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent asked the user for their user ID, even though it had already retrieved this information from the reservation details in turn 3 and used it to make a tool call in turn 8.",
+    "correct_behavior": "The agent should have recognized it already had the user ID and proceeded with confirming the user's identity based on the information it possessed, rather than asking the user to provide it again."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "irrelevant_tool_call",
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 12,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made multiple, completely irrelevant tool calls to fetch details for other reservations (`DXG8T6`, `46BBSE`, `P9VXUO`) that were not part of the user's current request about reservation `HXDUBJ`. This was a significant waste of resources and showed a lack of focus on the user's immediate task. It also violated the policy of making only one tool call at a time.",
+    "correct_behavior": "The agent should have stayed focused on reservation `HXDUBJ` and not made any tool calls related to other reservations in the user's profile."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "irrelevant_tool_call",
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 17,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "Following the irrelevant calls in turn 12, the agent made eight more irrelevant tool calls to check the status of flights from those unrelated reservations. This compounded the previous error, creating more unnecessary tool interactions and delaying the resolution of the user's actual request. It also was a severe violation of the \"one tool call at a time\" policy.",
+    "correct_behavior": "The agent should not have made these tool calls at all, as they pertained to reservations irrelevant to the user's request."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "irrelevant_tool_call"
+    ],
+    "severity": "minor",
+    "turn_idx": 30,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent searched for one-stop flights for the return leg, even though it had already found a suitable nonstop flight (HAT278) in turn 29 that met the user's criteria. This tool call was unnecessary.",
+    "correct_behavior": "The agent should have recognized that it had already found a valid flight and proceeded to present the options to the user instead of making an additional, unnecessary search."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation"
+    ],
+    "severity": "minor",
+    "turn_idx": 32,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent presented flight options to the user that were outside their specified time window. The user stated they wanted flights departing \"after 8am and before 9pm.\" The agent offered flight HAT180 departing at 07:00 and flight HAT082 departing at 23:00.",
+    "correct_behavior": "The agent should have filtered the flight search results according to the user's time preferences and only presented the valid options: HAT072 and HAT278."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "wrong_sequence",
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 36,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent executed the `update_reservation_flights` tool call prematurely. In turn 35, the user confirmed the flight changes but immediately followed up with new requests to upgrade the cabin and add bags. The agent should have paused, addressed the new requests, formulated a complete plan for all changes, and then sought a final confirmation. Instead, it executed the first part of the change in isolation. This violates the policy requiring explicit confirmation before updating the database, as the context for the confirmation had changed.",
+    "correct_behavior": "The agent should have held off on making any changes. It should have first investigated the possibility and cost of the cabin upgrade and baggage addition, presented a new summary of all proposed changes (flights, cabin, bags) and the final cost/refund, and then asked for a single, explicit confirmation to proceed with all actions."
+   }
+  ],
+  "cost": 0.06800625
+ },
+ {
+  "task": "39",
+  "trial": 3,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent successfully canceled two reservations that were eligible for a refund, but failed to complete the full task due to several errors. First, it violated policy by making numerous tool calls in one turn. Critically, it misinterpreted the cancellation policy for a flight with travel insurance, which led it to incorrectly refuse the user's request to cancel a third flight (MSJ4OA), even after the user agreed to forgo the refund. Finally, it hallucinated information about airline no-show procedures before correctly escalating to a human agent.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "critical",
+    "turn_idx": 6,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 25 tool calls in a single turn. The policy explicitly states, \"You should only make one tool call at a time.\"",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn, waiting for the response to each before making the next call."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 32,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent incorrectly interpreted the cancellation policy for reservation MSJ4OA, which has travel insurance. The agent stated that the reservation can 'only be canceled if the cancellation reason is covered by insurance'. Based on the example action trajectory and natural language assertions, the correct interpretation is that the flight can be canceled for any reason, but a refund is only issued for covered reasons. This misinterpretation is the root cause of the agent failing to complete the user's request.",
+    "correct_behavior": "The agent should have informed the user that reservation MSJ4OA could be canceled but would not be eligible for a refund, as the reason was not covered by insurance. It should have then asked if the user still wanted to proceed with the non-refundable cancellation."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action"
+    ],
+    "severity": "critical",
+    "turn_idx": 38,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "Following its incorrect interpretation of the policy, the agent refused to cancel reservation MSJ4OA, stating, \"our policy does not permit me to cancel them.\" The user had explicitly requested to cancel this flight even without a refund in turn 33. The natural language assertions and example trajectory confirm that this reservation should have been canceled.",
+    "correct_behavior": "The agent should have called the `cancel_reservation` tool for reservation MSJ4OA, as requested by the user."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "hallucination",
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 40,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent provided information about airline procedures for no-shows that is not grounded in the provided policy or tool results: \"If you do not check in or board the flights, the system will automatically handle the unoccupied seats at departure time according to standard airline procedures.\" The policy states, \"You should not provide any information, knowledge, or procedures not provided by the user or available tools.\"",
+    "correct_behavior": "The agent should not have provided this information. It should have acknowledged the policy limitation and, if unable to help further, proceeded to transfer the user to a human agent as it eventually did."
+   }
+  ],
+  "cost": 0.08204875
+ },
+ {
+  "task": "44",
+  "trial": 3,
+  "agent_error": true,
+  "user_error": false,
+  "critical_user_error": false,
+  "summary": "The agent repeatedly violated the policy of making only one tool call per turn. More critically, the agent misinterpreted the user's upgrade criteria and failed to identify one of the three eligible reservations (KC18K6) for an upgrade. This led the agent to provide an incorrect total cost to the user and ultimately fail to complete the user's full request, as confirmed by the missed Natural Language Assertions. The user simulator performed its role correctly, reacting naturally to the agent's incomplete and incorrect information.",
+  "errors": [
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 4,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 16 tool calls in a single turn. The policy states: \"You should only make one tool call at a time\". This is a direct violation of that policy.",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn, waiting for the response to each before making the next call."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 21,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 5 tool calls in a single turn. The policy states: \"You should only make one tool call at a time\". This is a direct violation of that policy.",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn, waiting for the response to each before making the next call."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "guideline_violation"
+    ],
+    "severity": "minor",
+    "turn_idx": 27,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent made 4 tool calls in a single turn. The policy states: \"You should only make one tool call at a time\". This is a direct violation of that policy.",
+    "correct_behavior": "The agent should have made the tool calls sequentially, one per turn, waiting for the response to each before making the next call."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "missed_required_action",
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 32,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "The agent failed to identify reservation KC18K6 as a candidate for an upgrade. The user asked to upgrade flights that are 3 hours or less. The agent incorrectly interpreted this as the total journey time for a reservation, stating KC18K6 takes 7 hours including layover. However, the user's request applies to individual flights, and the two flights in KC18K6 are 3 hours and 2 hours respectively. The Natural Language Assertions and Example Action Trajectory confirm that KC18K6 should have been upgraded.",
+    "correct_behavior": "The agent should have correctly interpreted the user's request, analyzed the individual flight durations within reservation KC18K6, and identified it as a candidate for a business class upgrade."
+   },
+   {
+    "source": "agent",
+    "error_type": null,
+    "error_tags": [
+     "incorrect_interpretation"
+    ],
+    "severity": "critical",
+    "turn_idx": 34,
+    "tick_start": null,
+    "tick_end": null,
+    "reasoning": "As a result of failing to identify reservation KC18K6 for an upgrade, the agent provided the user with an incorrect total cost. It quoted $647 for two reservations, when it should have included the cost for KC18K6 and quoted a total around $1387. This violates the natural language assertion that the total cost mentioned by the agent should be between $1380 and $1390.",
+    "correct_behavior": "The agent should have calculated and presented the total upgrade cost for all three eligible reservations (NM1VX1, H8Q05L, and KC18K6), which would have been approximately $1387."
+   }
+  ],
+  "cost": 0.08059750000000002
+ }
+]
