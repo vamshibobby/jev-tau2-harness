@@ -21,4 +21,7 @@ preferred-citation:
     - family-names: Atukuri
       given-names: Sai Vamshi
   year: 2026
-  notes: "Preprint (Preprints.org), DOI to be added"
+  doi: "10.5281/zenodo.24501211"
+  publisher:
+    name: Zenodo
+  notes: "Preprint"

@@ -3,7 +3,7 @@
 Replication code and saved runs for the preprint
 
 > **System-1 Orchestration for Enterprise Conversational Agents: Typed Decisions Beside the LLM on τ²-Bench Airline**
-> Sai Vamshi Atukuri, 2026. Preprint (Preprints.org). DOI to be added.
+> Sai Vamshi Atukuri, 2026. Preprint, Zenodo. DOI: [10.5281/zenodo.24501211](https://doi.org/10.5281/zenodo.24501211)
 > Full text (HTML) and PDF: https://vamshibobby.github.io/papers/system1-orchestration-tau2-airline/
 
 Tool-calling chat agents keep the customer waiting through one LLM call after another, and many of those calls make
@@ -200,12 +200,15 @@ logged in October 2026. The logged answers are in `events.jsonl`.
 ## Citation
 
 ```bibtex
-@article{atukuri2026system1,
+@misc{atukuri2026system1,
   title  = {System-1 Orchestration for Enterprise Conversational Agents: Typed Decisions Beside the LLM on
             $\tau^2$-Bench Airline},
   author = {Atukuri, Sai Vamshi},
   year   = {2026},
-  note   = {Preprint (Preprints.org). DOI to be added}
+  publisher = {Zenodo},
+  doi    = {10.5281/zenodo.24501211},
+  url    = {https://doi.org/10.5281/zenodo.24501211},
+  note   = {Preprint}
 }
 
 @software{atukuri2026jevtau2,
